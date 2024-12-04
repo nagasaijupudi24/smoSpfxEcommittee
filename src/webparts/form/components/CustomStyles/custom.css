@@ -1,0 +1,56 @@
+div > .ql-container{
+  top:30px
+}
+
+div > .ql-toolbar {
+  display: inline-block!important;
+ 
+  /* border: 1px solid red !important; */
+    /* left: 65px; */
+    position: absolute !important;
+    top: -10px !important;
+     /* left: 200px; */
+}
+
+/* Responsive styles for width less than 768px */
+/* @media (max-width: 768px) { */
+  
+  
+  /* div > .ql-toolbar { */
+    /* left: 50px !important;  */
+  /* } */
+/* } */
+
+div > .ms-Dropdown  {
+  color: rgb(32, 31, 30);
+  border-color: red!important;
+}
+
+div > .ms-Dropdown:active  {
+  color: rgb(32, 31, 30);
+  border-color: red!important;
+}
+
+div > .ms-Dropdown:hover  {
+  color: rgb(32, 31, 30);
+  border-color: red!important;
+}
+
+
+
+/* div > .dropdown:hover .ms-Dropdown-title {
+  color: rgb(32, 31, 30);
+  border-color: transparent !important;
+} */
+
+/* div > span:hover  {
+  color: rgb(32, 31, 30);
+  border-color: red!important;
+}
+
+
+span > .ms-Dropdown-title{
+  color: rgb(32, 31, 30);
+  border-color: red!important;
+
+} */

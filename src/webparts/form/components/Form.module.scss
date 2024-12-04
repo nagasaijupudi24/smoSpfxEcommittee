@@ -1,0 +1,1186 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+
+
+
+*{
+  box-sizing: border-box;
+}
+
+// p{
+//   margin: 7px 0;
+// }
+
+h4{
+  margin: 7px 0;
+}
+
+
+.form {
+  display: flex;
+  flex-direction: column; /* Arrange child containers in a row */
+  justify-content: space-between; /* Space between child containers */
+  padding: 6px;
+  min-height: 100vh;
+  // border: 1px solid red;
+}
+
+.welcome {
+  text-align: center;
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+
+
+.generalSectionMainContainer {
+  margin-top: 10px;
+  // text-align: center;
+  font-size: 16px;
+  border-radius: 8px;
+  color: white;
+  background-color: "[theme: themePrimary]" ;
+  font-weight: 300;
+  display: flex;
+  align-items: center; // Remove quotes for valid CSS
+  justify-content: center; // Remove quotes for valid CSS
+   // Remove quotes for valid CSS
+
+  // Flex direction
+  flex-direction: row; // Default to row for desktop and tablet
+
+  @media (max-width: 768px) { // Mobile and smaller
+    flex-direction: column; // Stack items vertically on small screens
+  }
+}
+
+.spanForPeoplePicker{
+  color:"[theme: themePrimary]";
+  font-size: 10px;
+    font-style: italic;
+    margin-bottom: 4px;
+}
+
+
+
+.generalSection {
+  border: 1px solid rgb(211, 211, 211);
+  flex-wrap: wrap;
+  display: flex; /* Proper flex display */
+  justify-content: flex-start;
+  align-items: flex-start; /* Align items at the top */
+  margin-top: 5px;
+  border-radius: 9px;
+  padding: 10px;
+  padding-right: 0px;
+  // gap: 16px; /* Add spacing between the sections */
+}
+
+
+/* Tablet version */
+@media (max-width: 1024px) {
+  .generalSection {
+    /* Adjust padding for tablet */
+    padding: 8px;
+    padding-top: 4px;
+    /* Reduce border radius for a more compact look */
+    border-radius: 7px;
+    /* Optional: Adjust flex direction for tablet */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Mobile version */
+@media (max-width: 768px) {
+  .generalSection {
+    /* Adjust padding for mobile */
+    padding: 6px;
+    padding-top: 3px;
+    /* Further reduce border radius for mobile */
+    border-radius: 5px;
+    /* Flex direction for mobile */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Optional: Adjust minimum height for mobile */
+    min-height: 80px;
+  }
+}
+
+/* Base styles */
+.halfWidth {
+  width: 48%;
+  // height: 80px;
+  // gap:10px
+
+  // border: 1px solid violet;
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .halfWidth {
+    width: 90%;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .halfWidth {
+    width: 90%;
+  }
+}
+
+/* Extra small devices (like smaller mobile screens) */
+@media (max-width: 480px) {
+  .halfWidth {
+    width: 90%;
+  }
+}
+
+.generalSectionContainer1 {
+  width: 250px;
+  
+}
+
+.generalSectionApproverDetails {
+  border: 1px solid rgb(211, 211, 211);
+  // display: "flex";
+
+  // justify-content: space-between;
+  margin-top: 5px;
+  border-radius: 9px;
+  padding: 10px;
+  min-height: 100px;
+
+
+
+}
+
+
+// .approverDetailsSection {
+//   // border: 1px solid pink
+// }
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #034ea1;
+  color: white;
+  font-size: 14px;
+  margin-bottom: 5px;
+  
+
+}
+
+
+
+
+
+/* Container holding both expanding and PDF sections */
+.expansionAndPdfContainer {
+  box-sizing: border-box;
+  display: flex;
+  // gap:5px;
+  justify-content: flex-start; /* Default alignment for larger screens */
+  align-items: flex-start; /* Default alignment for larger screens */
+  // gap: 10px;
+  // border: 1px solid yellow;
+  /* Uncomment the height if needed */
+  /* height: 100%; */
+  width:100%;
+ 
+  padding: 5px 0px;
+  
+}
+
+/* Expanding Container */
+.expandingContainer {
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  width: 50%; /* Default width for larger screens */
+  // height: 100%;
+  padding-right: 4px;
+  // margin: 4px;
+}
+
+.sectionContainer {
+  border: 1px solid rgb(211, 211, 211);
+  // text-align: center;
+  font-size: 14px;
+  // margin-top: 5px;
+  // margin-bottom: 5px;
+  font-weight: 400;
+  width: 100%;
+  padding: 0px;
+}
+
+/* PDF Container */
+.pdfContainer {
+  box-sizing: border-box;
+ 
+  // height: 88vh;
+  border: 1px solid rgb(211, 211, 211);
+  // margin:4px;
+  width: 50%; /* Default width for larger screens */
+  // border: 1px solid pink;
+}
+
+/* Responsive styles */
+@media (max-width: 1200px) { /* Medium to large devices (tablets) */
+  .expansionAndPdfContainer {
+    flex-direction: row; /* Keep them side by side */
+  }
+}
+
+@media (max-width: 990px) { /* Smaller tablets */
+  .expansionAndPdfContainer {
+    flex-direction: row; /* Keep them side by side */
+ 
+  }
+}
+
+@media (max-width: 768px) { /* Mobile and small tablets */
+  .expansionAndPdfContainer {
+  
+    flex-direction: column; /* Change direction to column */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+
+  .pdfContainer {
+    order: 1; /* Make pdfContainer appear first */
+    width: 100%; /* Full width */
+  }
+
+  .expandingContainer {
+    padding-top: 5px;
+    padding-right: 0px;
+    order: 2; /* Make expandingContainer appear second */
+    width: 100%; /* Full width */
+  }
+}
+
+@media (max-width: 850px) { /* Extra small tablets */
+  .expansionAndPdfContainer {
+    flex-direction: column; /* Change direction to column */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+  }
+
+  .pdfContainer {
+    order: 1; /* Ensure pdfContainer remains first */
+    width: 100%; /* Full width */
+  }
+
+  .expandingContainer {
+    padding-top: 5px;
+    padding-right: 0px;
+    order: 2; /* Make expandingContainer appear second */
+    width: 100%; /* Full width */
+  }
+}
+
+@media (max-width: 480px) { /* Extra small devices (phones) */
+  .expansionAndPdfContainer {
+    gap: 5px; /* Reduce gap for smaller screens */
+  }
+
+  .pdfContainer,
+  .expandingContainer {
+    padding: 5px; /* Add some padding for better touch targets */
+    border-radius: 4px; /* Optional: Rounded corners */
+  }
+}
+
+
+
+.headers {
+  font-weight: 500;
+  font-size: 16px;
+}
+
+
+.commonProperties {
+  padding: 5px;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row; /* Default to row layout */
+  justify-content: space-between; /* Spread items evenly */
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Title styles */
+.title {
+  font-size: 14px;
+  color: "[theme: themePrimary, default: #0078d7]";
+  order: 2; /* Default order for the title */
+}
+
+.titleDate {
+  font-size: 14px;
+  text-align: right;
+  // color: "[theme: themePrimary, default: #0078d7]";
+  order: 2; /* Default order for the title */
+}
+
+.statusContainer{
+  order:1
+}
+
+
+
+/* Mobile phones (less than 600px) */
+@media (max-width: 600px) {
+  .commonProperties {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center;
+    justify-content: flex-start; /* Stack from the top */
+    padding: 10px; /* Increased padding for mobile */
+  }
+
+  .statusContainer{
+    order:2
+  }
+
+
+ 
+  
+  .title {
+    order: 1; /* Make title the first item when in column layout */
+  }
+
+  .titleDate{
+    text-align: center;
+  }
+}
+
+/* Tablets (600px - 768px) */
+@media (min-width: 600px) and (max-width: 768px) {
+  .commonProperties {
+    flex-direction: column; /* Still vertical but adjusted for tablet size */
+    padding: 8px; /* Slightly reduce padding */
+    justify-content: center; /* Center vertically for tablets */
+  }
+
+  .statusContainer{
+    order:2
+  }
+ 
+
+  .title {
+    order: 1; /* Make title the first item when in column layout */
+  }
+
+  .titleDate{
+    text-align: center;
+  }
+
+
+  
+}
+
+/* Small laptops (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .commonProperties {
+    flex-direction: row; /* Row layout on larger screens */
+    justify-content: space-around; /* Spread elements evenly across the container */
+    padding: 6px;
+  }
+
+  .title {
+    order: 1; /* Default order for the title */
+  }
+
+  
+
+}
+
+/* Desktops (above 1024px) */
+@media (min-width: 1024px) {
+  .commonProperties {
+    flex-direction: row; /* Maintain row layout */
+    justify-content: space-between; /* Standard spacing on large screens */
+    padding: 5px;
+  }
+
+  .title {
+    order: 2; /* Default order for the title */
+  }
+}
+
+
+
+
+.status {
+  font-size: 14px;
+}
+
+.field {
+  color: #f31700;
+    font-size: 12px;
+    font-style: italic;
+}
+
+
+
+
+
+
+@media (max-width: 750px) {
+  .status {
+    font-size: 14px;
+    /* Tablet view */
+  }
+}
+
+@media (max-width: 600px) {
+  .status {
+    font-size: 12px;
+    /* Mobile view */
+  }
+}
+
+
+
+.responsiveTitle {
+  // margin-top: 6px;
+  color: "[theme: themePrimary, default: #0078d7]";
+  text-align: center;
+  font-size: 14px;
+  /* Default for desktop */
+  flex-grow: 1;
+  // border: 1px solid red;
+}
+
+@media (max-width: 750px) {
+  .responsiveTitle {
+    font-size: 14px;
+    /* Tablet view */
+  }
+}
+
+@media (max-width: 600px) {
+  .responsiveTitle {
+    font-size: 12px;
+    /* Mobile view */
+  }
+}
+
+
+// .eCommitteeHeader{
+//   // width: 70%;
+//   border: 1px solid red;
+//   // text-align: right;
+// }
+
+.noteHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // border:1px solid red;
+
+}
+
+
+.noteTitle {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .noteTitle {
+    grid-template-columns: 1fr; /* Change to a single column */
+    grid-auto-rows: auto; /* Allow rows to grow automatically */
+    grid-template-rows: auto auto auto; /* Three rows for each item */
+    text-align: center; /* Center content for better presentation */
+  }
+}
+
+/* Tablet view (between 600px and 900px) */
+@media (min-width: 600px) and (max-width: 900px) {
+  .noteTitle {
+    font-size: 18px;
+    /* Adjust font size for tablets */
+  }
+}
+
+/* Mobile view (below 600px) */
+@media (max-width: 600px) {
+  .noteTitle {
+    font-size: 14px;
+    /* Adjust font size for mobile */
+  }
+}
+
+
+
+
+
+.commonBtn {
+  border-radius: 8px;
+  border: none;
+  padding: 8px;
+}
+
+.commonBtn1 {
+  background-color: #034ea1;
+  color: white;
+  font-weight: 400;
+  margin: 8px;
+}
+
+.commonBtn2 {
+  background-color: rgb(211, 211, 211);
+  color: black;
+  font-weight: 400;
+  margin: 8px;
+
+}
+
+
+.addBtn {
+  // border: 1px solid green;
+  margin: 0px;
+  height: 30px;
+  border-radius: 8px;
+  border: none;
+  margin-left: 10px;
+
+}
+
+
+.message {
+  color: green;
+  // text-align: center;
+  // border: 1px solid olive;
+  font-size: 10px;
+  align-self: flex-end;
+}
+
+.warning {
+  color: red;
+  margin-left: 3px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+}
+
+
+/* Base styles */
+.tableContainer {
+  border: 1px solid rgb(211, 211, 211);
+  padding: 4px;
+  border-radius: 8px;
+  margin-top: 6px;
+  overflow-x: auto;
+  /* Enables horizontal scrolling */
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .tableContainer {
+    padding: 3px;
+    margin-top: 5px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .tableContainer {
+    padding: 2px;
+    margin-top: 4px;
+  }
+}
+
+/* Extra small devices (like smaller mobile screens) */
+@media (max-width: 480px) {
+  .tableContainer {
+    padding: 1px;
+    margin-top: 3px;
+  }
+}
+
+
+
+
+.fileInputContainers {
+  width: 45%;
+  margin: 12px;
+  // border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Tablet view */
+@media (max-width: 1024px) {
+  .fileInputContainers {
+    width: 95%;
+    margin: 12px;
+  }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+  .fileInputContainers {
+    width: 100%;
+    margin: 12px;
+  }
+}
+
+/* Extra small devices (like smaller mobile screens) */
+@media (max-width: 480px) {
+  .fileInputContainers {
+    width: 100%;
+    margin: 12px;
+
+  }
+}
+
+.fileAttachementsUl {
+  padding-left: 0px;
+  list-style-type: none;
+  width: 100%;
+  // border: 1px solid green;
+}
+
+.basicLi {
+  border: 1px solid rgb(211, 211, 211);
+}
+
+.inputField {
+  display: flex;
+  flex-direction: column;
+}
+
+.attachementli {
+  margin: 0px;
+  display: flex;
+  padding-left: 4px;
+  padding:6px 4px;
+  
+
+  justify-content: space-between;
+}
+
+.fileIconAndNameWithErrorContainer{
+  display: flex;
+  align-items: center;
+  width: 88%; 
+  overflow: hidden;
+}
+
+.fileNameAndErrorContainer{
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden; /* Prevent overflow of text */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.customFileUpload {
+  display: inline-block;
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #0078d4;
+  /* Fluent UI primary color */
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  text-align: center;
+  // border: 1px solid #0078d4;
+  /* Same color as background for consistent styling */
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #005a9e;
+    /* Darker shade for hover effect */
+    border-color: #005a9e;
+    /* Match border with hover background color */
+  }
+
+  &:active {
+    background-color: #004578;
+    /* Even darker shade for active state */
+    border-color: #004578;
+  }
+}
+
+///view Form css
+
+
+.viewForm {
+  padding: 10px;
+  // background-color: #f4f4f4;
+  min-height: 100vh;
+  // border:1px solid green;
+  font-size: 16px;
+}
+
+
+.viewFormHeaderSection{
+  align-items: "flex-start";
+  justify-content: space-between;
+  padding:'10px';
+  padding-left: '10px';
+  padding-right: '10px';
+ 
+  
+}
+
+
+.generalHeader {
+  font-size: 16px; // Default font size for desktop
+  font-weight: 500; // Default font weight for desktop
+  margin: 0; // Remove default margin for better control
+
+  // Responsive styles
+  @media (max-width: 1024px) { // Tablet
+    font-size: 14px; // Adjust font size for tablets
+    font-weight: 400; // Adjust font weight for tablets
+  }
+
+  @media (max-width: 768px) { // Mobile
+    font-size: 12px; // Adjust font size for mobile
+    font-weight: 300; // Adjust font weight for mobile
+    text-align: left; // Optional: Change alignment for mobile
+  }
+
+  @media (max-width: 480px) { // Small mobile
+    font-size: 10px; // Further adjustments for very small screens
+    font-weight: 300; // Keep font weight light for small mobile
+  }
+}
+
+
+.viewFormMainContainer{
+  // border:1px solid red;
+  // height: 100%;
+  display: flex;
+  // justify-content: flex-start;
+  // align-items: ;
+  flex-direction: column;
+
+}
+
+
+.viewFormContentContainer{
+  // border:1px solid blue;
+  border: none;
+  
+
+
+}
+
+.viewFormHeaderSectionContainer {
+  // border: 1px solid rgb(211, 211, 211);
+  // text-align: center;
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-weight: 400;
+  padding: 5px;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+.btnsContainer{
+
+  // border: 1px solid red;
+  
+  gap:'10px';
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding-top:15px;
+
+  
+ 
+}
+
+.approveEtcBtns{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap:10px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+
+.toolbar{
+  display: 'flex';
+  border: '1px solid red';
+}
+
+.pdfViewer {
+  width: 100%;
+  max-width: 100%; // Ensure iframe doesn't exceed container width
+  overflow: hidden; // Prevent content overflow
+  position: relative; // Contain iframe within the container
+  // padding-bottom: 56.25%; // Aspect ratio for responsive design (16:9 ratio)
+  // height: 100%; // Initialize height to zero
+}
+
+// .pdfViewer iframe {
+//   position: absolute; // Position the iframe absolutely within the container
+//   top: 0;
+//   left: 0;
+//   width: 100%; // Full width of the container
+//   height: 100%; // Full height of the container
+//   border: none; // Remove default border
+// }
+
+.pdfViewer {
+  overflow: hidden;
+  padding: 1em;
+  color: "[theme:bodyText, default: #323130]";
+  color: var(--bodyText);
+  &.teams {
+    font-family: $ms-font-family-fallbacks;
+  }
+}
+ 
+.welcome {
+  text-align: center;
+}
+
+.textAreaWithOutline{
+  outline-color: "[theme: themePrimary]" ;
+  padding-top: 9px;
+}
+ 
+.welcomeImage {
+  width: 100%;
+  max-width: 420px;
+}
+ 
+.links {
+  a {
+    text-decoration: none;
+    color: "[theme:link, default:#03787c]";
+    color: var(--link); // note: CSS Custom Properties support is limited to modern browsers only
+ 
+    &:hover {
+      text-decoration: underline;
+      color: "[theme:linkHovered, default: #014446]";
+      color: var(--linkHovered); // note: CSS Custom Properties support is limited to modern browsers only
+    }
+  }
+}
+.pdfContainer {
+  // width: 100%;
+  height: 88vh;
+  // overflow-y: auto; // Enable vertical scrolling
+  // padding: 10px;
+  // box-sizing: border-box;
+}
+ 
+canvas {
+  display: block;
+  margin: 10px auto; // Center each page
+  border: 1px solid #ccc; // Add border to each page
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); // Optional shadow for better visibility
+  max-width: 100%; // Fit the canvas to the container width
+  height: auto; // Maintain aspect ratio
+}
+ 
+.pdfbutton {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+ 
+}
+
+
+
+.header {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer; // Make the header clickable
+  padding: 5px;
+  background-color: #f0f8ff; // Background color for the header
+  // border-radius: 4px; // Rounded corners
+}
+
+.sectionText {
+  position: relative;
+  margin-left: 8px;
+  font-weight: bold;
+  padding-bottom: 5px; /* Add padding to give space for the bottom border */
+  text-transform: capitalize; /* Optional, based on your requirement */
+}
+
+.sectionText::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background-color: black;
+  transform: scaleX(0); /* Initially no border visible */
+  transition: transform 0.3s ease; /* Smooth transition for hover effect */
+}
+
+.sectionText:hover::after {
+  transform: scaleX(1); /* Full border width on hover */
+}
+
+
+.chevronIcon {
+  margin-right: 8px;
+}
+
+.expansionPanelInside {
+  // padding-left:'22px';
+  // border: 1px solid #ddd;
+  padding-top: '0px';
+  width: '100%';
+
+}
+
+.responsiveContainerheaderForFileAttachment {
+  // width: 100%; /* Full width */
+  padding: 15px; /* Default padding */
+  // border:1px solid green;
+  
+  @media (max-width: 1200px) { /* Large tablets */
+    padding: 12px;
+  }
+  
+  @media (max-width: 992px) { /* Medium tablets */
+    padding: 10px;
+  }
+  
+  @media (max-width: 768px) { /* Small tablets */
+    padding: 8px;
+  }
+  
+  @media (max-width: 576px) { /* Mobile */
+    padding: 5px;
+  }
+}
+
+
+.responsiveHeading {
+  font-size: 12px; /* Default font size */
+  margin-top: '5px';
+  margin-bottom: '5px';
+  border: '1px solid green';
+  
+  @media (max-width: 1200px) { /* Large tablets */
+    font-size: 12px;
+  }
+  
+  @media (max-width: 992px) { /* Medium tablets */
+    font-size: 12px;
+  }
+  
+  @media (max-width: 768px) { /* Small tablets */
+    font-size: 12px;
+  }
+  
+  @media (max-width: 576px) { /* Mobile */
+    font-size: 12px;
+  }
+}
+
+
+
+// 
+
+.richTextContainer {
+  position: relative;
+  // max-width: 600px; /* Optional: Limit the width of the RichText field */
+  margin: 0 auto;
+
+  .msRichTextToolbar {
+    position: sticky; /* Makes the toolbar stick to the top */
+    top: 0; /* Aligns the toolbar at the top of the text area */
+    z-index: 1000; /* Ensure the toolbar stays above the content */
+    background-color: white; /* Set a background color so it's visible */
+    padding: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
+  }
+
+  .msRichTextField {
+    margin-top: 40px; /* Add margin to ensure space for the sticky toolbar */
+    // height: 300px; /* Set a height for scrolling purposes */
+    overflow-y: auto; /* Allow vertical scrolling */
+  }
+}
+
+/* File: ButtonStyles.module.scss */
+
+.responsiveButton {
+  /* Default styles for desktop */
+  // width: 100px; 
+  height: 32px; 
+  font-size: 12px; 
+  margin-top: 6px;  
+  padding-left: 10px;
+  padding-right: 10px; 
+  // display: flex; /* Enable flexbox for alignment */
+  // align-items: center; /* Center content vertically */
+  // justify-content: center; /* Center content horizontally */
+  
+  /* Icon padding */
+  svg {
+    margin-right: 4px; /* Space between icon and text */
+  }
+
+  @media (max-width: 1024px) { /* Tablet */
+    font-size: 12px; 
+    // width: 80px; 
+    
+  }
+
+  @media (max-width: 768px) { /* Smaller tablets / larger phones */
+    font-size: 12px; 
+    // width: 80px; 
+    // padding-left: 6px;
+    // padding-right: 6px;
+    display: flex; /* Enable flexbox for alignment */
+    align-items: center; /* Center content vertically */
+    justify-content: center;
+    
+  }
+
+  @media (max-width: 480px) { /* Mobile devices */
+    font-size: 12px; 
+    // width: 70px; 
+    padding-left: 6px;
+    padding-right: 6px;
+    display: flex; /* Enable flexbox for alignment */
+  align-items: center; /* Center content vertically */
+  justify-content: center;
+  }
+}
+
+
+.passcodeModalContainer {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.headerPass {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  color: #000;
+}
+
+.body {
+  margin-top: 20px;
+}
+
+.buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.removeTopMargin{
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+
+.headerTitle {
+  margin: 5px;
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+
+.pageLoader{
+  background: rgba(0, 0, 0, .4);
+    inset: 0;
+    position: absolute;
+    z-index: 1000;
+    display: flex
+;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+
+.spinnerModalTranparency{
+  background: 'transparent'; // Removes background color
+  box-shadow: 'none', 
+
+}
+
+.notePdfCustom{
+  // color: red !important;
+  color: "[theme: themePrimary]";
+  // color: "[theme: themePrimary, default: #034ea1]";
+  // text-decoration: none;
+  // color:transparent;
+}
+
+
+
+
+
+
+
