@@ -917,7 +917,7 @@ export default class ViewForm extends React.Component<
         "NoteMarkedInfoDTO"
       )();
 
-    // console.log(`${id} ------Details`, item);
+    console.log(`${id} ------Details`, item);
     // console.log(folderPath);
     // const folderItem =  await this.props.sp.web.getFolderByServerRelativePath(`${folderPath}/Pdf`)
     // .files().then(res => res);
@@ -980,14 +980,15 @@ export default class ViewForm extends React.Component<
               column1: "TypeOfFinancialNote",
               column2: `${item.FinancialType}`,
             },
-            item.SearchKeyword !== null && {
-              column1: "Search Keyword",
-              column2: item.SearchKeyword,
-            },
             item.Amount !== null && {
               column1: "Amount",
               column2:  `₹ ${item.Amount}`,
             },
+            item.SearchKeyword !== null && {
+              column1: "Search Keyword",
+              column2: item.SearchKeyword,
+            },
+           
             purposeData[0] !== "" && {
               column1: "Purpose",
               column2: `${purposeData[0]}`,
@@ -1136,7 +1137,7 @@ export default class ViewForm extends React.Component<
     typeOfReferee: any
   ): any => {
     commentsData = JSON.parse(commentsData);
-    // console.log(commentsData);
+    console.log(commentsData,"Refered DTO");
     const lenOfCommentData = commentsData.length;
     if (typeOfReferee === "to") {
       return commentsData[lenOfCommentData - 1].referredTo;
@@ -4093,12 +4094,10 @@ export default class ViewForm extends React.Component<
     );
   };
 
-  private _makeIsPassCodeValidateFalse = (): void => {
-    this.setState({ isPasscodeValidated: false });
-  };
+
 
   public render(): React.ReactElement<IViewFormProps> {
-    // console.log(this.state);
+    console.log(this.state);
     // console.log(this.props)
     // console.log(this.state.currentApprover?.[0]?.approverEmail || this.state.currentApprover?.[0]?.email)
     // console.log(this._currentUserEmail)
@@ -4184,7 +4183,7 @@ export default class ViewForm extends React.Component<
                 onSuccess={this.handlePasscodeSuccess} // Pass this function as the success handler
                 sp={this.props.sp}
                 user={this.props.context.pageContext.user}
-                _makeIsPassCodeValidateFalse={this._makeIsPassCodeValidateFalse}
+              
               />
             </form>
 
@@ -4625,7 +4624,7 @@ export default class ViewForm extends React.Component<
                               }
                               _atrJoinedCommentsToDTO = {this._atrJoinedCommentsToDTO}
 
-                              type="generalComments"
+                             
                             />
                           </div>
                         </div>
@@ -4686,7 +4685,7 @@ export default class ViewForm extends React.Component<
                                 }
                                 sp={this.props.sp}
                                 context={this.props.context}
-                                atrCreatorsList={this.state.atrCreatorsList}
+                              
                                 commentsData={this.state.generalComments}
                                 artCommnetsGridData={this._getAtrCommentsGrid(
                                   this.state.atrGridData
@@ -4768,7 +4767,7 @@ export default class ViewForm extends React.Component<
                                     ],
                                   });
                                 }}
-                                gridData={this.state.atrGridData}
+                                
                               />
                             </div>
                           </div>
@@ -4853,7 +4852,7 @@ export default class ViewForm extends React.Component<
                               accept=".xlsx,.pdf,.doc,.docx"
                               multiple={true}
                               maxFileSizeMB={25}
-                              maxTotalSizeMB={25}
+                              
                               data={this.state.supportingFilesInViewForm}
                               addtionalData={this.state.supportingDocumentfiles}
                               cummulativeError={this._getCummulativeError}
@@ -4924,12 +4923,12 @@ export default class ViewForm extends React.Component<
                                   accept=".pdf,.doc,.docx "
                                   multiple={false}
                                   maxFileSizeMB={5}
-                                  maxTotalSizeMB={5}
+                           
                                   data={this.state.secretaryGistDocs}
                                   addtionalData={
                                     this.state.secretaryGistDocsList
                                   }
-                                  cummulativeError={undefined} // value={this.state.supportingDocumentfiles}
+                               
                                 />
                               ):
                               (this._checkingCurrentUserInSecretaryDTOAfterApproved() &&<div
@@ -5349,7 +5348,7 @@ export default class ViewForm extends React.Component<
                                     // ],
                                   });
                                 }}
-                                gridData={this.state.atrGridData}
+                            
                               />
                             </div>
                           </div>
@@ -5557,7 +5556,7 @@ export default class ViewForm extends React.Component<
               this.state.noteReferrerDTO[this.state.noteReferrerDTO.length - 1]
             }
             requesterEmail={this.state.createdByEmail}
-            approverIdsHavingSecretary={this.state.approverIdsHavingSecretary}
+           
             isUserExistingDialog={() =>
               this.setState({ isUserExistsModalVisible: true })
             }
@@ -5576,9 +5575,7 @@ export default class ViewForm extends React.Component<
                 commentsLog: [...this.state.commentsLog, data],
               });
             }}
-            fetchReferComments={(data: any) => {
-              // console.log(data)
-            }}
+          
             fetchAnydata={(data: any, typeOfBtnTriggered: any, status: any) => {
               // console.log(data);
               // console.log(this.state.currentApprover);

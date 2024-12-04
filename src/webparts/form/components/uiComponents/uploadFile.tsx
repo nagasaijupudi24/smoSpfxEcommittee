@@ -8,13 +8,13 @@ import { IconButton } from "@fluentui/react";
 import styles from "../Form.module.scss";
 
 export interface IUploadFileProps {
-  cummulativeError: any;
+  
   typeOfDoc: string;
   onChange: (files: File[] | null, typeOfDoc: string) => void;
   accept?: string;
   maxFileSizeMB: number;
   multiple: boolean;
-  maxTotalSizeMB?: any;
+
   data: File[];
   errorData: any;
   addtionalData: any[];

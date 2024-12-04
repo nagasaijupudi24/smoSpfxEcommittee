@@ -41,7 +41,7 @@ interface IGridProps {
   _atrJoinedCommentsToDTO:any;
   data: any;
   currentUserDetails: any;
-  type: any;
+  
   handleCommentDataFuntion: (data: any, action: any, id?: any) => void; // Pass the function as a prop
 }
 

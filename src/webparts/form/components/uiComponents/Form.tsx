@@ -6,7 +6,7 @@
 /* eslint-disable max-lines */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-import React from "react";
+
 import styles from "../Form.module.scss";
 // import * as MicrosoftGraph from '@microsoft/microsoft-graph-types';
 // import { SPFI } from "@pnp/sp";
@@ -15,10 +15,12 @@ import {
   DefaultButton,
   Dropdown,
   Icon,
+  mergeStyleSets,
   Stack,
   TextField,
 } from "@fluentui/react";
 import {
+  IconButton,
   IDropdownOption,
   Modal,
   Spinner,
@@ -63,6 +65,7 @@ import ReviewerExistModal from "./ApproverOrReviewerDialog/reviewerDialogAlready
 import CummulativeErrorDialog from "./dialogFluentUi/cummulativeDialog";
 import SupportingDocumentsUploadFileComponent from "./supportingDocuments";
 import CommentsLogTable from "./simpleTable/commentsTable";
+import React from "react";
 // import PageLoader from "../Pageloder";
 
 interface INoteObject {
@@ -96,6 +99,8 @@ export interface IFileDetails {
 }
 
 interface IMainFormState {
+  isModalOpen:any;
+  modalMessage: any;
   title:any;
   createdByEmail: any;
   createdByID: any;
@@ -235,11 +240,7 @@ const getIdFromUrl = (): any => {
   return Id;
 };
 
-const getFromType = (): any => {
-  const params = new URLSearchParams(window.location.search);
-  const formType = params.get("type");
-  return formType;
-};
+
 
 export default class Form extends React.Component<IFormProps, IMainFormState> {
   private autoSaveInterval: any;
@@ -248,7 +249,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   // private _userName: string;
   // private _role: string;
   private _itemId: number = Number(getIdFromUrl());
-  private _formType: string = getFromType();
+  // private _formType: string = getFromType();
   private _currentUserEmail = this.props.context.pageContext.user.email;
 
   private _absUrl: any = this.props.context.pageContext.web.serverRelativeUrl;
@@ -270,6 +271,8 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     super(props);
     this.state = {
       // auto save
+      isModalOpen:false,
+      modalMessage:'',
       title:'',
       createdByEmail: "",
       createdByID: "",
@@ -1174,7 +1177,19 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   };
 
   private handleOnAdd = async (event: any, type: string): Promise<void> => {
+  
+
+
     if (type === "reveiwer") {
+
+      if (this.state.reviewerInfo.length === 0 ) {
+        this.setState({
+          isModalOpen: true,
+          modalMessage: `Please select ${type} then click on Add.`,
+        });
+        
+        return;
+      }
       if (this.checkReviewer()) {
         this.setState({ isReviewerDialogHandel: false });
       } else {
@@ -1202,6 +1217,17 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
 
       this._clearReviewerPeoplePicker();
     } else {
+
+      
+    if (this.state.approverInfo.length === 0) {
+      this.setState({
+        isModalOpen: true,
+        modalMessage: `Please select ${type} then click on Add.`,
+      });
+      
+      return;
+    }
+
       if (this.checkApprover()) {
         this.setState({ isApproverOrReviewerDialogHandel: false });
       } else {
@@ -1848,6 +1874,20 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     }
   };
 
+  private handleAuditTrail(status: string): void {
+    switch (status) {
+     
+        
+        case "Draft":
+          return this._getAuditTrail("Drafted");
+          
+      default:
+        return this._getAuditTrail(status);
+        
+    }
+  }
+  
+
   private createEcommitteeObject = async (
     status: string,
     statusNumber: any
@@ -1877,9 +1917,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       Status: status === "Drafted" ? "Draft" : status,
       StatusNumber: status === "Submitted" ? statusNumber : "100",
       AuditTrail:
-        this.state.status === "Call Back"
-          ? this._getAuditTrail("Submitted")
-          : this._getAuditTrail(status),
+      this.state.statusNumber === '200'?this._getAuditTrail("Submitted"):this.handleAuditTrail(status),
       ReviewersId: this._getReviewerId(),
       ApproversId: this._getApproverId(),
       // ReviewersId: 36,
@@ -3709,6 +3747,21 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     }
   };
 
+  private  _getApproverTypeDuringUpdating =  ():any => {
+    const currentApproverType = [...this.state.peoplePickerData,...this.state.peoplePickerApproverData][0]?.approverType;
+      console.log(currentApproverType);
+  
+      // Parse the NoteApproversDTO field
+      const Status =currentApproverType === 'Reviewer'?"Pending with reviewer":"Pending with approver"
+      console.log(Status)
+       const  StatusNumber = currentApproverType === 'Reviewer'?"2000":"3000"
+       console.log(StatusNumber)
+       console.log([Status,StatusNumber])
+     
+  
+      return [Status,StatusNumber];
+  };
+
   private getObject = async (status: any, statusNumber: any): Promise<any> => ({
     Department: this.state.department,
     CommitteeName: this.state.committeeNameFeildValue,
@@ -3728,8 +3781,8 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       this.state.peoplePickerApproverData,
       "allDetails"
     ),
-    Status: status,
-    StatusNumber: statusNumber,
+    Status: status ==="Submitted"?this._getApproverTypeDuringUpdating()[0]:status,
+    StatusNumber: status ==="Submitted"?this._getApproverTypeDuringUpdating()[1]:statusNumber,
     AuditTrail: this.state.itemId
       ? this.state.successStatus === "submitted"
         ? this._getAuditTrail("Submitted")
@@ -4166,6 +4219,43 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     }
   };
 
+
+  private  _getApproverType = async (id: number): Promise<any[]> => {
+    try {
+      // Fetch the item from the SharePoint list
+      const item: any = await this.props.sp.web.lists
+        .getByTitle(this._listname)
+        .items.getById(id)
+        .select(
+          "*",
+          "CurrentApprover/Title",
+          "CurrentApprover/EMail"
+        )
+        .expand("CurrentApprover")();
+  
+      console.log(`${id} ------Details`, item);
+  
+      // Extract the current approver's email
+      const currentApproverMail = item.CurrentApprover.EMail;
+      console.log(currentApproverMail);
+  
+      // Parse the NoteApproversDTO field
+      const approverDTO = JSON.parse(item.NoteApproversDTO);
+      console.log(approverDTO);
+  
+      // Filter the approver type based on the current approver's email
+      const approverType = approverDTO.filter((each: any) =>
+        each.approverEmail === currentApproverMail ? each.approverType : null
+      );
+  
+      return approverType;
+    } catch (error) {
+      console.error("Error fetching approver type:", error);
+      throw error;
+    }
+  };
+  
+
   // Generate Request Number
   private async _generateRequsterNumber(id: number) {
     const currentyear = new Date().getFullYear();
@@ -4189,12 +4279,49 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       return updatedSecretaryDTO;
     };
     this.title = requesterNo;
+
+  //   const item: any = await this.props.sp.web.lists
+  //   .getByTitle(this._listname)
+  //   .items.getById(id)
+  //   .select(
+  //     "*",
+     
+  //     "CurrentApprover/Title",
+  //     "CurrentApprover/EMail"
+  //   )
+  //   .expand(
+      
+  //     "CurrentApprover",
+    
+  //   )();
+
+  // console.log(`${id} ------Details`, item);
+
+  // const currentApproverMail = item.CurrentApprover.EMail
+  // console.log(currentApproverMail)
+  // const approverDTO = JSON.parse(item.NoteApproversDTO)
+  // console.log(approverDTO)
+
+  // const approverType = approverDTO.filter(
+  //   (each:any)=>{
+  //     if (each.approverEmail === currentApproverMail){
+  //       return each.approverType
+  //     }
+  //   }
+  // )
+
+  const approverType:any = await this._getApproverType(id)
+
+
+
     await this.props.sp.web.lists
       .getByTitle(this._listname)
       .items.getById(id)
       .update({
         Title: requesterNo,
         NoteSecretaryDTO: JSON.stringify(getUpdatedNoteSecretaryDTO()),
+        Status:approverType === 'Reviewer'?"Pending with reviewer":"Pending with approver",
+        StatusNumber:approverType === 'Reviewer'?"2000":"3000",
 
         // NoteApproversDTO:JSON.stringify(this._getNewUpdatedNoteApproverDTO(this.state.peoplePickerData,this.state.peoplePickerApproverData))
       });
@@ -4609,6 +4736,65 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     return checkSecertaryIsAvailable;
   };
 
+
+  private stylesModal = mergeStyleSets({
+    modal: {
+      padding: "10px",
+      minWidth: "300px",
+      maxWidth: "80vw",
+      width: "100%",
+      "@media (min-width: 768px)": {
+        maxWidth: "580px", // Adjust width for medium screens
+      },
+      "@media (max-width: 767px)": {
+        maxWidth: "290px", // Adjust width for smaller screens
+      },
+      margin: "auto",
+      backgroundColor: "white",
+      borderRadius: "4px",
+      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.26)",
+    },
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+      borderBottom: "1px solid #ddd",
+      minHeight: "50px",
+    },
+    headerTitle: {
+      margin: "5px",
+      marginLeft: "5px",
+      fontSize: "16px",
+      fontWeight: "400",
+    },
+    peoplePickerAndAddCombo: {
+      display: "flex",
+      gap: "5px",
+      width: "60%",
+    },
+    body: {
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "center",
+      textAlign: "center",
+      padding: "20px 0",
+    },
+    footer: {
+      display: "flex",
+      justifyContent: "flex-end",
+      marginTop: "20px",
+      borderTop: "1px solid #ddd", // Added border to the top of the footer
+      paddingTop: "10px",
+    },
+  });
+
+
+  private _closeModal = (): void => {
+    this.setState({ isModalOpen: false });
+   
+  };
+
   public render(): React.ReactElement<IFormProps> {
     console.log(this.state);
 
@@ -4720,7 +4906,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
             {/* <Header /> */}
             <Title
               itemId={this._itemId}
-              formType={this._formType}
+            
               propPaneformType={this.props.formType}
               statusOfRequest={this.state.status}
               title={this.title}
@@ -4839,7 +5025,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                   <SpanComponent />
                 </label>
                 <Dropdown
-                 onFocus="this.style.borderColor='transparent';" 
+                
                   placeholder=
                   {this.props.formType === "BoardNoteNew"
                     ? "Select an Board Committee Name"
@@ -4860,11 +5046,11 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                       borderRadius: "2px",
                       // fontSize: "16px",
                       // fontFamily: 'Poppins',
-                    //   outline:
-                    //     this.state.committeeNameFeildValue === "" &&
-                    //     this.state.isWarningCommitteeName
-                    //       ? "2px solid red"
-                    //       : "1px solid transparent",
+                      outline:
+                        this.state.committeeNameFeildValue === "" &&
+                        this.state.isWarningCommitteeName
+                          ? "2px solid red"
+                          : "1px solid transparent",
                     },
                     title: {
                       borderColor: (this.state.committeeNameFeildValue === "" && this.state.isWarningCommitteeName) ? 'transparent' : undefined
@@ -5469,10 +5655,12 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                 {/* <TableComponent /> */}
 
                 <DetailsListDragDropExample
+                key={this.state.peoplePickerData.length} 
                   data={this.state.peoplePickerData}
                   reOrderData={this.reOrderData}
                   removeDataFromGrid={this.removeDataFromGrid}
                   type="Reviewer"
+                  
                 />
 
                 {/* <MultiComboBoxTable/>/ */}
@@ -5521,6 +5709,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
               </div>
               <div className={`${styles.tableContainer}`}>
                 <DetailsListDragDropExample
+                key={this.state.peoplePickerApproverData.length} 
                   data={this.state.peoplePickerApproverData}
                   reOrderData={this.reOrderData}
                   removeDataFromGrid={this.removeDataFromGrid}
@@ -5537,59 +5726,33 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                     Draft Resoultion
                   </h1>
                 </div>
-                <div className={`${styles.generalSectionApproverDetails}`} style={{ minHeight:'140px' }}  >
-                  <div className={styles.richTextContainer}>
-                    <RichText
-                     styleOptions={this.state.isSmallScreen?{showBold: true,
-                      showItalic:true,showUnderline:true,showList:true,
-                      showMore:true}:{
-                        showBold: true,
-  
-                      showItalic:true,showUnderline:true,showList:true,
-                      showAlign:true,
-                      showImage:true,
-                      showLink:true,
-                      showStyles:true,
-  
-                      showMore:true
-  
-                      }}
-                      value={this.state.draftResolutionFieldValue}
-                      onChange={(text) => this.onTextChange(text)}
-                    />
-                  </div>
+                <div
+  className={`${styles.generalSectionDraftResolution}`}
+  style={{ minHeight: 'auto' }} /* Auto height for better fit */
+>
+  <div className={styles.richTextContainer}>
+    <RichText
+      styleOptions={
+        this.state.isSmallScreen
+          ? { showBold: true, showItalic: true, showUnderline: true, showList: true, showMore: true }
+          : {
+              showBold: true,
+              showItalic: true,
+              showUnderline: true,
+              showList: true,
+              showAlign: true,
+              showImage: true,
+              showLink: true,
+              showStyles: true,
+              showMore: true,
+            }
+      }
+      value={this.state.draftResolutionFieldValue}
+      onChange={(text) => this.onTextChange(text)}
+    />
+  </div>
+</div>
 
-
-{/* <div className={styles.richTextContainer}
-              //  className={` ${styles.richTextContainer}`}
-              >
-                <RichText
-                  value={this.state.draftResolutionFieldValue}
-                  styleOptions={this.state.isSmallScreen?{showBold: true,
-                    showItalic:true,showUnderline:true,showList:true,
-                    showMore:true}:{
-                      showBold: true,
-
-                    showItalic:true,showUnderline:true,showList:true,
-                    showAlign:true,
-                    showImage:true,
-                    showLink:true,
-                    showStyles:true,
-
-                    showMore:true
-
-                    }}
-                  onChange={(text: string) =>
-                    this.onTextChange(text)
-                  }
-
-                  
-
-                 
-                />
-              </div> */}
-
-                </div>
               </div>
             )}
 
@@ -5641,14 +5804,14 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                 </p>
                 <div style={{ width: "100%", margin: "0px" }}>
                   <UploadFileComponent
-                    cummulativeError={undefined}
+                    
                     errorData={this._getFileWithError}
                     typeOfDoc="notePdF"
                     onChange={this.handleNoteToFileChange}
                     accept=".pdf"
                     multiple={false}
                     maxFileSizeMB={10}
-                    maxTotalSizeMB={10}
+                
                     data={this.state.noteTofiles}
                     addtionalData={[]} // value={this.state.noteTofiles}
                   />
@@ -5674,10 +5837,10 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                       accept=".doc,.docx"
                       multiple={false}
                       maxFileSizeMB={10}
-                      maxTotalSizeMB={10}
+                     
                       data={this.state.wordDocumentfiles}
                       addtionalData={[]} // value={this.state.wordDocumentfiles}
-                      cummulativeError={undefined}
+                      
                     />
                   </div>
                   <p className={styles.message} style={{ margin: "0px" }}>
@@ -5700,7 +5863,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                     accept=".xlsx,.pdf,.doc,.docx"
                     multiple={true}
                     maxFileSizeMB={25}
-                    maxTotalSizeMB={25}
+                  
                     data={this.state.supportingDocumentfiles}
                     addtionalData={[]} // value={this.state.supportingDocumentfiles}
                     cummulativeError={this._getCummulativeError}
@@ -5913,6 +6076,48 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           </div>
         )}
         {/* {this.state.isLoadingOnForm && <PageLoader/>} */}
+
+        <Modal
+          isOpen={this.state.isModalOpen}
+          onDismiss={this._closeModal}
+          isBlocking={true}
+          containerClassName={this.stylesModal.modal}
+        >
+            <>
+        <div className={this.stylesModal.header}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <IconButton iconProps={{ iconName: "Info" }} />
+            <h4 className={this.stylesModal.headerTitle}>Alert</h4>
+          </div>
+          <IconButton
+            iconProps={{ iconName: "Cancel" }}
+            onClick={() => {
+              // console.log("Triggered close");
+              this._closeModal();
+            }}
+          />
+        </div>
+        <div className={this.stylesModal.body}>
+          <p>{this.state.modalMessage}</p>
+        </div>
+        <div className={this.stylesModal.footer}>
+          <PrimaryButton
+            iconProps={{ iconName: "ReplyMirrored" }}
+            // onClick={this._closeModal}
+
+            onClick={() => {
+              // if (this.state.warnType !=="no"){
+              // //   const pageURL: string = this.props.homePageUrl;
+              // // window.location.href = `${pageURL}`;
+
+              // }
+              this._closeModal();
+            }}
+            text="OK"
+          />
+        </div>
+      </>
+        </Modal>
       </div>
     );
   }

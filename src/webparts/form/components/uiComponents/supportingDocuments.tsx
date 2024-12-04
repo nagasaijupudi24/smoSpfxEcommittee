@@ -14,7 +14,7 @@ export interface IUploadFileProps {
   accept?: string;
   maxFileSizeMB: number;
   multiple: boolean;
-  maxTotalSizeMB?: any;
+  
   data: File[];
   errorData: any;
   addtionalData: any[];

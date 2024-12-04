@@ -28,7 +28,7 @@ export interface IPasscodeModalProps {
   onClose: () => void;
   onSuccess: () => void;
   createPasscodeUrl: string; // Added property for redirect URL
-  _makeIsPassCodeValidateFalse: any;
+  
 }
 
 export interface IPasscodeModalState {
@@ -290,9 +290,7 @@ export default class PasscodeModal extends React.Component<
       },
     });
 
-    // function _makeIsPassCodeValidateFalse() {
-    //   throw new Error("Function not implemented.");
-    // }
+    
 
     return (
       <Modal

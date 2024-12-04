@@ -14,6 +14,7 @@ import {
   IDragDropEvents,
   IDragDropContext,
   SelectionMode,
+  IDetailsFooterProps,
 } from '@fluentui/react/lib/DetailsList';
 // import { MarqueeSelection } from '@fluentui/react/lib/MarqueeSelection';
 // import { createListItems, IExampleItem } from '@fluentui/example-data';
@@ -213,9 +214,21 @@ export class DetailsListDragDropExample extends React.Component<any, IDetailsLis
     // console.log(this.props)
   }
 
+  componentDidMount() {
+    try {
+        // When the component mounts, set the state based on props passed.
+        if (this.props.data !== this.state.items) {
+            this.setState({ items: this.props.data });
+        }
+    } catch (error) {
+        console.error("Error in componentDidMount:", error);
+    }
+}
+
 
   public render(): JSX.Element {
-    const {  columns, } = this.state;
+    const {  columns,items } = this.state;
+    // const items = this.props.data;
 
     return (
       <div>
@@ -227,20 +240,25 @@ export class DetailsListDragDropExample extends React.Component<any, IDetailsLis
           
         </div>
         {/* <MarqueeSelection selection={this._selection}> */}
-          <DetailsList
-            setKey="items"
-            items={this.props.data}
-            columns={columns}
-            selection={this._selection}
-            selectionMode={SelectionMode.none}
-            selectionPreservedOnEmptyClick={true}
-            // onRenderItemColumn={this._onRenderItemColumn}
-            dragDropEvents={this._dragDropEvents}
-            // columnReorderOptions={this.state.isColumnReorderEnabled ? this._getColumnReorderOptions() : undefined}
-            // ariaLabelForSelectionColumn="Toggle selection"
-            // ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-            // checkButtonAriaLabel="select row"
-          />
+        <DetailsList
+          setKey="items"
+          items={items}
+          columns={columns}
+          selection={this._selection}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+          dragDropEvents={this._dragDropEvents}
+          onRenderDetailsFooter={(props: IDetailsFooterProps) => {
+            if (this.state.items.length === 0) {
+              return (
+                <div style={{ textAlign: 'center', padding: '20px', color: 'gray' }}>
+                  No records available
+                </div>
+              );
+            }
+            return null;
+          }}
+        />
         {/* </MarqueeSelection> */}
       </div>
     );
@@ -302,8 +320,8 @@ private _insertBeforeItem(item: IExampleItem): void {
     ? (this._selection.getSelection() as IExampleItem[])
     : [this._draggedItem!];
 
-  const insertIndex = this.props.data.indexOf(item);
-  const items = this.props.data.filter((itm: any) => draggedItems.indexOf(itm) === -1);
+  const insertIndex = this.state.items.indexOf(item);
+  const items = this.state.items.filter((itm: any) => draggedItems.indexOf(itm) === -1);
 
   items.splice(insertIndex, 0, ...draggedItems);
 

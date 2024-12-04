@@ -7,7 +7,7 @@ import styles from "../../Form.module.scss";
 
 interface TitleProps {
   itemId: any;
-  formType: string;
+  
   statusOfRequest: string;
   propPaneformType: any;
   title: any;

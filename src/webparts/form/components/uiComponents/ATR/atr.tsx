@@ -43,12 +43,12 @@ interface IATRAssigneeProps {
   clearAtrGridDataOnSelectionOFATRType:any;
   checkingCurrentATRCreatorisCurrentApproverOrNot: any;
   getATRJoinedComments: any;
-  gridData: any;
+  
   updategirdData: any;
   commentsData: any;
   sp: any;
   context: any; // This is required by the PeoplePicker
-  atrCreatorsList: any;
+
   artCommnetsGridData: any;
 
   deletedGridData: any;

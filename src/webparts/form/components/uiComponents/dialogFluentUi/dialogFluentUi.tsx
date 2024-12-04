@@ -23,11 +23,11 @@ interface IDialogProps {
   dialogDetails: any;
   sp: any;
   context: any;
-  fetchReferComments:any;
+ 
   fetchAnydata: any;
   fetchReferData:any;
   isUserExistingDialog:any;
-  approverIdsHavingSecretary:any;
+  
 }
 
 const Header = (props: any) => (
