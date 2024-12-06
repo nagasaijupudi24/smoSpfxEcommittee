@@ -917,7 +917,7 @@ export default class ViewForm extends React.Component<
         "NoteMarkedInfoDTO"
       )();
 
-    console.log(`${id} ------Details`, item);
+    // console.log(`${id} ------Details`, item);
     // console.log(folderPath);
     // const folderItem =  await this.props.sp.web.getFolderByServerRelativePath(`${folderPath}/Pdf`)
     // .files().then(res => res);
@@ -1137,7 +1137,7 @@ export default class ViewForm extends React.Component<
     typeOfReferee: any
   ): any => {
     commentsData = JSON.parse(commentsData);
-    console.log(commentsData,"Refered DTO");
+    // console.log(commentsData,"Refered DTO");
     const lenOfCommentData = commentsData.length;
     if (typeOfReferee === "to") {
       return commentsData[lenOfCommentData - 1].referredTo;
@@ -1322,7 +1322,7 @@ export default class ViewForm extends React.Component<
         this.setState({ pdfLink: this._getFileObj(values).fileUrl });
       });
 
-      console.log(tempFilesPdf);
+      // console.log(tempFilesPdf);
       this.setState({ noteTofiles: tempFilesPdf });
 
       //Word Documents
@@ -4097,7 +4097,7 @@ export default class ViewForm extends React.Component<
 
 
   public render(): React.ReactElement<IViewFormProps> {
-    console.log(this.state);
+    // console.log(this.state);
     // console.log(this.props)
     // console.log(this.state.currentApprover?.[0]?.approverEmail || this.state.currentApprover?.[0]?.email)
     // console.log(this._currentUserEmail)

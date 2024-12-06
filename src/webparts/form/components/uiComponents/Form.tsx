@@ -596,7 +596,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   };
 
   private _getItemDocumentsData = async () => {
-    console.log(this._folderName)
+    // console.log(this._folderName)
     try {
       const tempFilesPdf: File[] = [];
       const tempFilesWordDocument: File[] = [];
@@ -608,7 +608,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
         .files.select("*")
         .expand("Author", "Editor")();
 
-      console.log(folderItemsPdf)
+      // console.log(folderItemsPdf)
       for (const file of folderItemsPdf) {
         const fileObj = await this._getFileObj(file);
         tempFilesPdf.push(fileObj);
@@ -681,7 +681,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       .expand("Author","Approvers", "Reviewers", "CurrentApprover")();
 
     this.title = item.Title;
-    console.log(item,"Item..........")
+    // console.log(item,"Item..........")
 
     this.setState({
       title: item.Title,
@@ -1086,6 +1086,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           secretaryObj,
         ],
       });
+      
   };
 
   public reOrderData = (reOrderData: any[], type: string): void => {
@@ -3648,7 +3649,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
         this.setState({ itemId: id });
         // console.log(id, "id created");
 
-        await this._generateRequsterNumber(this.state.itemId || id);
+        await this._generateRequsterNumber(this.state.itemId || id,statusOfForm);
 
         // if (id){
         //   this.setState({isVisibleAlter:true})
@@ -3690,7 +3691,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           // console.log(id.Id, "id");
           // console.log(id.Id, "id -----", status, "Status");
 
-           await this._generateRequsterNumber(id.Id);
+           await this._generateRequsterNumber(id.Id,statusOfForm);
           // console.log(createFolder);
           this.setState({ autosave: false });
           clearInterval(this.autoSaveInterval);
@@ -3749,14 +3750,14 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
 
   private  _getApproverTypeDuringUpdating =  ():any => {
     const currentApproverType = [...this.state.peoplePickerData,...this.state.peoplePickerApproverData][0]?.approverType;
-      console.log(currentApproverType);
+      // console.log(currentApproverType);
   
       // Parse the NoteApproversDTO field
       const Status =currentApproverType === 'Reviewer'?"Pending with reviewer":"Pending with approver"
-      console.log(Status)
+      // console.log(Status)
        const  StatusNumber = currentApproverType === 'Reviewer'?"2000":"3000"
-       console.log(StatusNumber)
-       console.log([Status,StatusNumber])
+      //  console.log(StatusNumber)
+      //  console.log([Status,StatusNumber])
      
   
       return [Status,StatusNumber];
@@ -4169,15 +4170,16 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       // console.log("Starting to fetch department alias...");
 
       // Step 1: Fetch items from the Departments list
-      const items: any[] = await this.props.sp.web.lists
-        .getByTitle("Departments")
-        .items.select(
-          "Department",
-          "DepartmentAlias",
-          "Admin/EMail",
-          "Admin/Title"
-        ) // Fetching relevant fields
-        .expand("Admin")();
+      // const items: any[] = await this.props.sp.web.lists
+      //   .getByTitle("Departments")
+      //   .items.select(
+      //     "*",
+      //     "Department",
+      //     "DepartmentAlias",
+      //     "Admin/EMail",
+      //     "Admin/Title"
+      //   ) // Fetching relevant fields
+      //   .expand("Admin")();
 
       // console.log("Fetched items from Departments:", items);
 
@@ -4188,32 +4190,57 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       // this._userName = profile.DisplayName;
       // this._role = profile.Title;
 
-      profile.UserProfileProperties.filter((element: any) => {
+      profile.UserProfileProperties.filter(async (element: any) => {
         if (element.Key === "Department") {
+
+          const items: any[] = await this.props.sp.web.lists
+          .getByTitle("Departments")
+          .items .filter(`Department eq '${element.Value}'`).select(
+            "*",
+            "Department",
+            "DepartmentAlias",
+            "Admin/EMail",
+            "Admin/Title"
+          ) // Fetching relevant fields
+         .expand("Admin")();
+  
+        console.log("based on Deparment Filter Fetched items from Departments:", items);
+
+        this.setState(
+          {
+            departmentAlias: items[0].DepartmentAlias, // Store the department alias
+          },
+          
+        );
           // department: element.Value
 
-          const specificDepartment = items.find(
-            (each: any) =>
-              each.Department.includes(element.Value) ||
-              each.Title?.includes(element.Value)
-          );
-
-          if (specificDepartment) {
-            const departmentAlias = specificDepartment.DepartmentAlias;
-            // console.log(
-            //   "Department alias for department with 'Development' in title:",
-            //   departmentAlias
-            // );
-
-            // Step 3: Update state with the department alias
-            this.setState({
-              departmentAlias: departmentAlias, // Store the department alias
-            });
-          }
+          // const specificDepartment = items.find(
+          //   (each: any) =>
+          //     each.Department.includes(element.Value) ||
+          //     each.Title?.includes(element.Value)
+          // );
+    
+          // if (specificDepartment) {
+          //   const departmentAlias = specificDepartment.DepartmentAlias;
+          //   // console.log(
+          //   //   "Department alias for department with 'Development' in title:",
+          //   //   departmentAlias
+          //   // );
+    
+          //   // Step 3: Update state with the department alias
+          //   this.setState(
+          //     {
+          //       departmentAlias: departmentAlias, // Store the department alias
+          //     },
+              
+          //   );
+          // }
         }
       });
 
+
       // Step 2: Find the department entry where the Title or Department contains "Development"
+      
     } catch (error) {
       // console.error("Error fetching department alias: ", error);
     }
@@ -4233,15 +4260,15 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
         )
         .expand("CurrentApprover")();
   
-      console.log(`${id} ------Details`, item);
+      // console.log(`${id} ------Details`, item);
   
       // Extract the current approver's email
       const currentApproverMail = item.CurrentApprover.EMail;
-      console.log(currentApproverMail);
+      // console.log(currentApproverMail);
   
       // Parse the NoteApproversDTO field
       const approverDTO = JSON.parse(item.NoteApproversDTO);
-      console.log(approverDTO);
+      // console.log(approverDTO);
   
       // Filter the approver type based on the current approver's email
       const approverType = approverDTO.filter((each: any) =>
@@ -4257,7 +4284,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   
 
   // Generate Request Number
-  private async _generateRequsterNumber(id: number) {
+  private async _generateRequsterNumber(id: number,statusFrom:any) {
     const currentyear = new Date().getFullYear();
     const nextYear = (currentyear + 1).toString().slice(-2);
     const requesterNo =
@@ -4311,20 +4338,38 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   // )
 
   const approverType:any = await this._getApproverType(id)
+  // console.log(approverType)
 
 
-
+  if (statusFrom === 'Submitted'){
     await this.props.sp.web.lists
-      .getByTitle(this._listname)
-      .items.getById(id)
-      .update({
-        Title: requesterNo,
-        NoteSecretaryDTO: JSON.stringify(getUpdatedNoteSecretaryDTO()),
-        Status:approverType === 'Reviewer'?"Pending with reviewer":"Pending with approver",
-        StatusNumber:approverType === 'Reviewer'?"2000":"3000",
+    .getByTitle(this._listname)
+    .items.getById(id)
+    .update({
+      Title: requesterNo,
+      NoteSecretaryDTO: JSON.stringify(getUpdatedNoteSecretaryDTO()),
+      Status:approverType[0].approverType === 'Reviewer'?"Pending with reviewer":"Pending with approver",
+      StatusNumber:approverType[0].approverType === 'Reviewer'?"2000":"3000",
 
-        // NoteApproversDTO:JSON.stringify(this._getNewUpdatedNoteApproverDTO(this.state.peoplePickerData,this.state.peoplePickerApproverData))
-      });
+      // NoteApproversDTO:JSON.stringify(this._getNewUpdatedNoteApproverDTO(this.state.peoplePickerData,this.state.peoplePickerApproverData))
+    });
+
+  }else{
+    await this.props.sp.web.lists
+    .getByTitle(this._listname)
+    .items.getById(id)
+    .update({
+      Title: requesterNo,
+      NoteSecretaryDTO: JSON.stringify(getUpdatedNoteSecretaryDTO()),
+    
+
+      // NoteApproversDTO:JSON.stringify(this._getNewUpdatedNoteApproverDTO(this.state.peoplePickerData,this.state.peoplePickerApproverData))
+    });
+  }
+
+
+
+   
     // .then((data) => console.log(data, "data"));
     // console.log(requesterNo);
     // eslint-disable-next-line no-void
@@ -4796,7 +4841,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   };
 
   public render(): React.ReactElement<IFormProps> {
-    console.log(this.state);
+    // console.log(this.state);
 
     //   }
     // console.log(this._committeeType)
