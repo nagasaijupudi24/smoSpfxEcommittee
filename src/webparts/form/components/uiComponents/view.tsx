@@ -2502,46 +2502,7 @@ export default class ViewForm extends React.Component<
     const updateAuditTrial = await this._getAuditTrail(statusFromEvent);
     const referedId = v4();
 
-    // console.log(updateAuditTrial);
-    // console.log([
-    //   {
-    //     approverEmail:
-    //       this.state.referredFromDetails[0].email ||
-    //       this.state.referredFromDetails[0].approverEmail,
-    //     approverEmailName:
-    //       this.state.referredFromDetails[0].text ||
-    //       this.state.referredFromDetails[0].approverEmailName,
-    //     approverType: this.state.referredFromDetails[0].approverType,
-    //     createdBy:
-    //       this.state.referredFromDetails[0].email ||
-    //       this.state.referredFromDetails[0].approverEmail,
-    //     createdDate: new Date(),
-    //     modifiedBy:
-    //       this.state.referredFromDetails[0].email ||
-    //       this.state.referredFromDetails[0].approverEmail,
-    //     modifiedDate: new Date(),
-    //     noteApproverId: this.state.referredFromDetails[0].id,
-    //     noteId: this._itemId,
 
-    //     noteReferrerCommentDTO: null,
-    //     noteReferrerId: referedId,
-    //     noteSupportingDocumentsDTO: null,
-    //     referrerEmail:
-    //       this.state.refferredToDetails[0].email ||
-    //       this.state.refferredToDetails[0].approverEmail,
-    //     referrerEmailName:
-    //       this.state.refferredToDetails[0].text ||
-    //       this.state.refferredToDetails[0].approverEmailName,
-    //     referrerStatus: 1,
-    //     referrerStatusType: this.state.refferredToDetails[0].status,
-    //     referredTo: [
-    //       { ...this.state.refferredToDetails[0], noteReferrerId: referedId },
-    //     ],
-    //     referredFrom: [
-    //       { ...this.state.referredFromDetails[0], noteReferrerId: referedId },
-    //     ],
-    //   },
-    // ]);
 
     const obj = {
       NoteApproversDTO: JSON.stringify(modifyApproveDetails),
@@ -3093,12 +3054,12 @@ export default class ViewForm extends React.Component<
     this.setState({ isVisibleAlter: true, isLoading: false },()=>console.log('set during Approver Change StateCalled'));
 
     checkSelectedApproverHasSecretary.length > 0 &&
-      this.setState({
+      this.setState((prevState)=>({
         noteSecretaryDetails: [
-          ...this.state.noteSecretaryDetails,
+          ...prevState.noteSecretaryDetails,
           secretaryObj,
         ],
-      });
+      }));
   };
 
   private _checkApproveredStatusIsFound = (): any => {
@@ -3363,9 +3324,9 @@ export default class ViewForm extends React.Component<
         // console.log(commentsData);
         // console.log(prev.commentsData);
         if (this.state.statusNumber === "4000") {
-          this.setState({
+          this.setState((prevState)=>({
             noteReferrerCommentsDTO: [
-              ...this.state.noteReferrerCommentsDTO,
+              ...prevState.noteReferrerCommentsDTO,
               {
                 ...commentsData,
                 ...this.state.noteReferrerDTO[
@@ -3373,7 +3334,7 @@ export default class ViewForm extends React.Component<
                 ],
               },
             ],
-          });
+          }));
         }
 
        
@@ -4716,7 +4677,7 @@ export default class ViewForm extends React.Component<
                                   const { assigneeDetails } = data;
                                   // console.log(assigneeDetails)
                                   // console.log(data.comments)
-                                  this.setState({
+                                  this.setState((prevState)=>({
                                     atrGridData: data.comments,
                                     
                                     //  [
@@ -4724,7 +4685,7 @@ export default class ViewForm extends React.Component<
                                     //   ...this.state.atrGridData,
                                     // ],
                                     noteATRAssigneeDetails: [
-                                      ...this.state.noteATRAssigneeDetails,
+                                      ...prevState.noteATRAssigneeDetails,
                                       {
                                         atrAssigneeId: assigneeDetails.id,
                                         atrCreatorId:
@@ -4770,7 +4731,7 @@ export default class ViewForm extends React.Component<
                                         noteId: this._itemId,
                                       },
                                     ],
-                                  });
+                                  }));
                                 }}
                                 
                               />
@@ -5328,9 +5289,9 @@ export default class ViewForm extends React.Component<
                                   // console.log(data);
 
                                   const { markInfoassigneeDetails } = data;
-                                  this.setState({
+                                  this.setState((prevState)=>({
                                     noteMarkedInfoDTOState: [
-                                      ...this.state.noteMarkedInfoDTOState,
+                                      ...prevState.noteMarkedInfoDTOState,
                                       markInfoassigneeDetails,
                                     ],
 
@@ -5351,7 +5312,7 @@ export default class ViewForm extends React.Component<
 
                                     //   },
                                     // ],
-                                  });
+                                  }));
                                 }}
                             
                               />
@@ -5575,10 +5536,10 @@ export default class ViewForm extends React.Component<
             context={this.props.context}
             fetchReferData={(data: any) => {
               // console.log(data);
-              this.setState({
-                commentsData: [...this.state.commentsData, data],
-                commentsLog: [...this.state.commentsLog, data],
-              });
+              this.setState((prevState)=>({
+                commentsData: [...prevState.commentsData, data],
+                commentsLog: [...prevState.commentsLog, data],
+              }));
             }}
           
             fetchAnydata={(data: any, typeOfBtnTriggered: any, status: any) => {
