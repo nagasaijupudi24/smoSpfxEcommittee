@@ -21,10 +21,17 @@ const Title: React.FC<TitleProps> = (props) => {
     return () => clearInterval(timerID);
   }, []);
 
-  const formattedDate: string = `${currentDate.getDate()}-${
-    currentDate.getMonth() + 1
-  }-${currentDate.getFullYear()} ${currentDate.getHours()}:${currentDate.getMinutes()}:${currentDate.getSeconds()}`;
+  
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const formatWithZero = (value: number) => value < 10 ? `0${value}` : `${value}`;
+
+const formattedDate: string = `${formatWithZero(currentDate.getDate())}-${
+  formatWithZero(currentDate.getMonth() + 1)
+}-${currentDate.getFullYear()} ${formatWithZero(currentDate.getHours())}:${
+  formatWithZero(currentDate.getMinutes())}:${formatWithZero(currentDate.getSeconds())}`;
+
+// console.log(formattedDate);
   return (
     <div style={{ flexGrow: 1, margin: "10 10px" }}>
       <div

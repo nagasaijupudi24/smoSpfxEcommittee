@@ -333,9 +333,15 @@ export default class SupportingDocumentsUploadFileComponent extends React.Compon
             ? [...this.state.selectedFiles, ...filesWithBuffers]
             : filesWithBuffers;
 
-          this.setState({ selectedFiles: updatedFiles }, () => {
-            this.validateFiles(updatedFiles.map((f) => f.file));
-          });
+            this.setState((prevState) => {
+              const updatedFiles = this.props.multiple
+                ? [...prevState.selectedFiles, ...filesWithBuffers]
+                : filesWithBuffers;
+              
+              return { selectedFiles: updatedFiles };
+            }, () => {
+              this.validateFiles(this.state.selectedFiles.map((f) => f.file));
+            });
 
           this.props.onChange(
             updatedFiles.map((f) => f.file),
@@ -420,6 +426,8 @@ export default class SupportingDocumentsUploadFileComponent extends React.Compon
     this.setState({ selectedFiles: updatedFiles }, () => {
       this.validateFiles(updatedFiles.map((f) => f.file));
     });
+
+  
 
     this.props.onChange(
       updatedFiles.map((f) => f.file),

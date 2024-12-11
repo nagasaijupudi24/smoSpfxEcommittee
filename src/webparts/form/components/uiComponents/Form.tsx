@@ -243,6 +243,7 @@ const getIdFromUrl = (): any => {
 
 
 export default class Form extends React.Component<IFormProps, IMainFormState> {
+  private _department:any="";
   private autoSaveInterval: any;
   private _peopplePicker: IPeoplePickerContext;
   private _noteId: any;
@@ -684,6 +685,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     // console.log(item,"Item..........")
 
     this.setState({
+      department: item.Department,
       title: item.Title,
       createdByEmail: item.Author.EMail,
       createdByEmailName: item.Author.Title,
@@ -744,7 +746,8 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
 
       profile.UserProfileProperties.filter((element: any) => {
         if (element.Key === "Department") {
-          this.setState({ department: element.Value });
+          this._department =element.Value
+          // this.setState({ department: element.Value });
         }
       });
 
@@ -1022,6 +1025,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       modifiedDate: "",
       modifiedBy: "",
     };
+    // console.log(secretaryObj)
 
     const dataRec = await this._getUserProperties(items[0].loginName);
 
@@ -1043,7 +1047,9 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                 ? checkSelectedApproverHasSecretary[0]?.secretaryEmailName
                 : "",
             secretaryEmail:
-              checkSelectedApproverHasSecretary[0]?.secretaryEmail,
+            checkSelectedApproverHasSecretary.length > 0
+                ?
+              checkSelectedApproverHasSecretary[0]?.secretaryEmail:'',
 
             srNo: dataRec[1].split("@")[0] || obj.secondaryText.split("@")[0],
             text: obj.text,
@@ -1068,8 +1074,10 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
               checkSelectedApproverHasSecretary.length > 0
                 ? checkSelectedApproverHasSecretary[0]?.secretaryEmailName
                 : "",
-            secretaryEmail:
-              checkSelectedApproverHasSecretary[0]?.secretaryEmail,
+                secretaryEmail:
+                checkSelectedApproverHasSecretary.length > 0
+                    ?
+                  checkSelectedApproverHasSecretary[0]?.secretaryEmail:'',
 
             srNo: dataRec[1].split("@")[0] || obj.secondaryText.split("@")[0],
             text: obj.text,
@@ -1080,12 +1088,13 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
       this.setState({ approverInfo: newItemsData });
     }
     checkSelectedApproverHasSecretary.length > 0 &&
-      this.setState({
-        noteSecretaryDetails: [
-          ...this.state.noteSecretaryDetails,
-          secretaryObj,
-        ],
-      });
+     
+      this.setState((prev)=>
+      (
+        {
+          noteSecretaryDetails:[...prev.noteSecretaryDetails,secretaryObj]
+        }
+      ))
       
   };
 
@@ -1203,14 +1212,16 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           this.setState((prev) => ({
             peoplePickerData: [
               ...prev.peoplePickerData,
-              ...this.state.reviewerInfo,
+              ...prev.reviewerInfo,
             ],
           }));
+
+
         } else {
           this.setState((prev) => ({
             peoplePickerData: [
               ...prev.peoplePickerData,
-              ...this.state.reviewerInfo,
+              ...prev.reviewerInfo,
             ],
           }));
         }
@@ -1241,14 +1252,14 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           this.setState((prev) => ({
             peoplePickerApproverData: [
               ...prev.peoplePickerApproverData,
-              ...this.state.approverInfo,
+              ...prev.approverInfo,
             ],
           }));
         } else {
           this.setState((prev) => ({
             peoplePickerApproverData: [
               ...prev.peoplePickerApproverData,
-              ...this.state.approverInfo,
+              ...prev.approverInfo,
             ],
           }));
         }
@@ -1895,7 +1906,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
   ): Promise<INoteObject> => {
     // console.log(status);
     const ecommitteObject: any = {
-      Department: this.state.department,
+      Department: this._department,
       CommitteeName: this.state.committeeNameFeildValue,
       Subject: this.state.subjectFeildValue,
       NatureOfNote: this.state.natureOfNoteFeildValue,
@@ -3787,8 +3798,11 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
     AuditTrail: this.state.itemId
       ? this.state.successStatus === "submitted"
         ? this._getAuditTrail("Submitted")
-        : this._getAuditTrail("Drafted")
-      :this._itemId?(this.state.statusNumber==='200' || this.state.statusNumber ==='5000' ?this._getAuditTrail("Submitted"):this._getAuditTrail("Drafted")): this._getAuditTrail("Submitted"), // ReSubmitted
+        : this._getAuditTrail("Drafted"):
+        this.state.successStatus === "submitted"
+        ? this._getAuditTrail("Submitted")
+        : this._getAuditTrail("Drafted"),
+      // :this._itemId?(this.state.statusNumber==='200' || this.state.statusNumber ==='5000' ?this._getAuditTrail("Submitted"):this._getAuditTrail("Drafted")): this._getAuditTrail("Submitted"), // ReSubmitted
     // Reviewer:{result:this._getReviewerId()}
     ReviewersId: this._getReviewerId(),
     ApproversId: this._getApproverId(),
@@ -4204,7 +4218,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
           ) // Fetching relevant fields
          .expand("Admin")();
   
-        console.log("based on Deparment Filter Fetched items from Departments:", items);
+        // console.log("based on Deparment Filter Fetched items from Departments:", items);
 
         this.setState(
           {
@@ -4842,6 +4856,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
 
   public render(): React.ReactElement<IFormProps> {
     // console.log(this.state);
+    // console.log(this._department)
 
     //   }
     // console.log(this._committeeType)
@@ -5052,7 +5067,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
               >
                 Department<span className={styles.warning}>*</span>
                 <p style={{ margin: "5px", marginLeft: "20px" }}>
-                  {this.state.department}
+                  {this._itemId?this.state.department:this._department}
                 </p>
               </div>
               {/* Committee Name Sub Section */}
@@ -5954,6 +5969,7 @@ export default class Form extends React.Component<IFormProps, IMainFormState> {
                   this.state.statusNumber === "200"
                 ) && (
                         <PrimaryButton
+                        hidden={this.state.createdByEmail !==this._currentUserEmail}
                           type="button"
                           className={`${styles.responsiveButton}`}
                           iconProps={{ iconName: "Save" }}

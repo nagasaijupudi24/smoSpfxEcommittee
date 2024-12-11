@@ -674,21 +674,26 @@ export default class ViewForm extends React.Component<
         // console.log(each);
         // console.log(this._getUserProperties(each.email))
 
-        this.setState({
-          atrCreatorsList: [
-            ...this.state.atrCreatorsList,
-            {
-              atrCreatorId: each.ATRCreatorsId,
-              atrCreatorEmail: each.ATRCreators.EMail,
-              atrCreatorEmailName: each.ATRCreators.Title,
-              createdDate: each.Created,
-              createdBy: each.Author.EMail,
-              modifiedDate: each.Modified,
-              modifiedBy: each.Author.EMail,
-              statusMessage: null,
-            },
-          ],
-        });
+        this.setState(
+          (prev)=>{
+
+            return {
+              atrCreatorsList: [
+                ...prev.atrCreatorsList,
+                {
+                  atrCreatorId: each.ATRCreatorsId,
+                  atrCreatorEmail: each.ATRCreators.EMail,
+                  atrCreatorEmailName: each.ATRCreators.Title,
+                  createdDate: each.Created,
+                  createdBy: each.Author.EMail,
+                  modifiedDate: each.Modified,
+                  modifiedBy: each.Author.EMail,
+                  statusMessage: null,
+                },
+              ],
+            }
+          }
+        );
         return each;
       });
 

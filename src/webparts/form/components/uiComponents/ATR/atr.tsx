@@ -336,10 +336,16 @@ export class ATRAssignee extends React.Component<
       });
       // });
       this.props.getATRJoinedComments(joinedCommentsData.join(", "));
-      this.setState({
-        tableData: [...this.state.tableData, newTableData],
-        selectedValue: {},selectedUsers:{},selectedDropDownValue:''
-      });
+     
+
+    
+
+      this.setState((prev) => ({
+        tableData: [...prev.tableData, newTableData], // Add newData to the array
+        selectedValue: {},
+        selectedUsers: {},
+        selectedDropDownValue: ''
+      }));
       // eslint-disable-next-line no-unused-expressions
       (this.state.selectedChoice === "External" && Object.keys(this.state.selectedValue).length > 0) && this.state.clearPeoplePicker();
     }

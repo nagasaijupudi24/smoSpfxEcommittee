@@ -31,7 +31,6 @@ h4{
 
 .generalSectionMainContainer {
   margin-top: 10px;
-  ///
   font-size: 16px;
   border-radius: 8px;
   color: white;
@@ -153,7 +152,7 @@ h4{
   border-radius: 9px;
   padding: 10px;
   min-height: 100px;
-  overflow: hidden; /* Prevent overflow */
+  overflow: hidden; 
   position: relative;
 
 
@@ -537,7 +536,6 @@ h4{
 
 
 .addBtn {
-  //
   margin: 0px;
   height: 30px;
   border-radius: 8px;
@@ -1012,11 +1010,11 @@ canvas {
 
 
 
-// 
+
 
 .richTextContainer {
   position: relative;
-  width: 100%; /* Ensure it fits within the parent */
+  width: 100%;
   margin: 0 auto;
 
   

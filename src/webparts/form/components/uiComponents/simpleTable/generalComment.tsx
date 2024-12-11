@@ -266,16 +266,35 @@ export default class GeneralCommentsFluentUIGrid extends React.Component<
             comment: commentValue,
           }
         : row
+    ); 
+
+   
+
+    this.setState((prev)=>{
+
+      
+    const updatedRows = this.state.rowsData.map((row) =>
+      row.id === editRowId
+        ? {
+            ...row,
+            pageNum: prev.pageNumValue,
+            page: prev.pageValue,
+            comment: prev.commentValue,
+          }
+        : row
     );
 
-    this.setState({
+      
+      
+      
+      return {
       rowsData: updatedRows,
       editRowId: "",
       pageNumValue: "",
       pageValue: "",
       commentValue: "",
       isDialogOpen: false,
-    });
+    }})
 
     // Call the function passed from the parent component
     const updatedRow = updatedRows.find((row) => row.id === editRowId);

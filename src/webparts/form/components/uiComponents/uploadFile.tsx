@@ -326,6 +326,23 @@ export default class UploadFileComponent extends React.Component<
             this.validateFiles(updatedFiles.map((f) => f.file));
           });
 
+
+          this.setState(
+            prev=>{
+              const updatedFiles = this.props.multiple
+              ? [...prev.selectedFiles, ...filesWithBuffers]
+              : filesWithBuffers;
+
+              return {
+                selectedFiles: updatedFiles 
+              }
+           
+            }, () => {
+              this.validateFiles(updatedFiles.map((f) => f.file));
+            } )
+
+         
+
           this.props.onChange(
             updatedFiles.map((f) => f.file),
             this.props.typeOfDoc

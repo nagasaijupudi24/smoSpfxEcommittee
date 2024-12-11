@@ -163,9 +163,13 @@ export class MarkInfo extends React.Component<
     this.setState({selectedValue:{}})
   
     if (Object.keys(this.state.selectedValue).length > 0) {
-      this.setState({
-        tableData: [...tableData, selectedValue],submitBtnVisable:true
-      });
+      
+
+      this.setState(
+        (prev)=>({
+          tableData:[...prev.tableData,selectedValue],submitBtnVisable:true
+        })
+      )
     }
   };
   

@@ -43,7 +43,11 @@ export default class PnPPeoplePicker extends React.Component<
 
   private _clearPeoplePicker = () => {
     // console.log('Function called for clearing')
-    this.setState({ selectedPeople: [], key: this.state.key + 1 }); // Update the key to force re-render
+    this.setState((prev)=>({
+      selectedPeople: [], key: prev.key + 1
+
+    }))
+  
   };
 
   private _getUserProperties = async (loginName: any): Promise<any> => {
