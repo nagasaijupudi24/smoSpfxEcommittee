@@ -22,7 +22,7 @@ import "@pnp/sp/lists"; // Import lists functionality
 import "@pnp/sp/items"; // Import items functionality
 import "@pnp/sp/files/web";
 import '@pnp/sp/profiles';
-import { AllRequest } from './components/uiComponents/allRequest';
+
 // import PSPDFKitViewer from './components/psdpdfKit/psdPDF';
 
 export interface IFormWebPartProps {
@@ -146,30 +146,7 @@ export default class FormWebPart extends BaseClientSideWebPart<IFormWebPartProps
       );
      
     }
-    else if (this.properties.FormType === "allRequest") {
-      element = React.createElement(
-        AllRequest,
-        {
-          description: this.properties.description,
-          isDarkTheme: this._isDarkTheme,
-          environmentMessage: this._environmentMessage,
-          hasTeamsContext: !!this.context.sdks.microsoftTeams,
-          userDisplayName: this.context.pageContext.user.displayName,
-          sp: this.sp, // Pass the configured sp object
-          context: this.context, // Pass the WebPartContext
-          listId:this.properties.listId,
-          libraryId:this.properties.libraryId,
-          
-          formType:this.properties.FormType,
-          
-          homePageUrl:this.properties.homePageUrl,
-          passCodeUrl:this.properties.passCodeUrl,
-          existPageUrl:this.properties.existPageUrl
-         
-        }
-      );
-     
-    }
+ 
       
 
     if (element !== null) {

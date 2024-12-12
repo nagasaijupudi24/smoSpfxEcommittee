@@ -1,26 +1,13 @@
-/* div > .ql-container{
-  top:30px;
-  height: auto;
-}
-
-div > .ql-toolbar {
-  display: inline-block!important;
- 
-
-    position: absolute !important;
-    top: -10px !important;
-     
-} */
 
 
 div > .ql-container {
-  margin-top: 10px; /* Ensure it does not overlap */
-  height: auto; /* Adjust based on your layout */
+  margin-top: 10px;
+  height: auto; 
 }
 
 div > .ql-toolbar {
   display: block;
-  position: sticky !important; /* Sticky for better user experience */
+  position: sticky !important; 
   top: -10px !important;
   z-index: 1001;
  
